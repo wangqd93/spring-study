@@ -1,13 +1,10 @@
-package com.bycsmys.ioc.fromconfig;
+package com.bycsmys.ioc.config;
 
 import com.bycsmys.ioc.FxNewsProvider;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
-
-import java.io.File;
 
 /**
  * @Author wangqd

@@ -1,4 +1,4 @@
-package com.bycsmys.ioc.fromconfig;
+package com.bycsmys.ioc.config;
 
 import com.bycsmys.ioc.FxNewsProvider;
 import org.springframework.beans.factory.BeanFactory;

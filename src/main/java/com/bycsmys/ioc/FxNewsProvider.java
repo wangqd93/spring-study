@@ -6,38 +6,38 @@ package com.bycsmys.ioc;
  */
 public class FxNewsProvider {
 
-    private IFXNewsListener newListener;
-    private IFXNewsPersister newPersister;
+    private IFXNewsListener newsListener;
+    private IFXNewsPersister newsPersister;
 
     public FxNewsProvider() {
     }
 
-    public FxNewsProvider(IFXNewsListener newListener, IFXNewsPersister newPersister) {
-        this.newListener = newListener;
-        this.newPersister = newPersister;
+    public FxNewsProvider(IFXNewsListener newsListener, IFXNewsPersister newsPersister) {
+        this.newsListener = newsListener;
+        this.newsPersister = newsPersister;
     }
 
-    public IFXNewsListener getNewListener() {
-        return newListener;
+    public IFXNewsListener getNewsListener() {
+        return newsListener;
     }
 
-    public void setNewListener(IFXNewsListener newListener) {
-        this.newListener = newListener;
+    public void setNewsListener(IFXNewsListener newsListener) {
+        this.newsListener = newsListener;
     }
 
-    public IFXNewsPersister getNewPersister() {
-        return newPersister;
+    public IFXNewsPersister getNewsPersister() {
+        return newsPersister;
     }
 
-    public void setNewPersister(IFXNewsPersister newPersister) {
-        this.newPersister = newPersister;
+    public void setNewsPersister(IFXNewsPersister newsPersister) {
+        this.newsPersister = newsPersister;
     }
 
     public  void test(){
-        System.out.println(this.newListener.toString());
-        System.out.println(this.newListener.hashCode());
+        System.out.println(this.newsListener.toString());
+        System.out.println(this.newsListener.hashCode());
 
-        System.out.println(this.newPersister.toString());
-        System.out.println(this.newPersister.hashCode());
+        System.out.println(this.newsPersister.toString());
+        System.out.println(this.newsPersister.hashCode());
     }
 }
