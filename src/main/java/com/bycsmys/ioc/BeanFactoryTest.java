@@ -11,7 +11,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
  * 手动ioc注入
- * from spring 揭秘 page 24
+ * from spring揭秘 page 24
  *
  * @Author wangqd
  * @DATE 2019-03-02
