@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="djNewsListener" class="com.bycsmys.ioc.DowJonesNewListener"/>
+    <bean id="djNewsPersister" class="com.bycsmys.ioc.DowJonesNewsPersister"/>
+
+    <bean id="djNewsProvider" class="com.bycsmys.ioc.FxNewsProvider">
+        <constructor-arg index="0">
+            <ref bean="djNewsListener"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <ref bean="djNewsPersister"/>
+        </constructor-arg>
+    </bean>
+</beans>

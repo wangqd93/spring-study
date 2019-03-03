@@ -27,7 +27,7 @@ public class PropertiesBeanFactory {
     public static BeanFactory bindViaPropertiessFile(BeanDefinitionRegistry registry) {
         PropertiesBeanDefinitionReader reader = new PropertiesBeanDefinitionReader(registry);
 
-        reader.loadBeanDefinitions("bind-config.properties");
+        reader.loadBeanDefinitions("properties-config.properties");
         return (BeanFactory) registry;
     }
 
