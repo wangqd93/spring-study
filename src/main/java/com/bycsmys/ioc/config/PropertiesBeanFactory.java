@@ -1,6 +1,6 @@
 package com.bycsmys.ioc.config;
 
-import com.bycsmys.ioc.FxNewsProvider;
+import com.bycsmys.ioc.service.FxNewsProvider;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

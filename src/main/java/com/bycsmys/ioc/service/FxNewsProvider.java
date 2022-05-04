@@ -1,4 +1,7 @@
-package com.bycsmys.ioc;
+package com.bycsmys.ioc.service;
+
+
+import com.google.inject.Inject;
 
 /**
  * @Author wangqd
@@ -9,31 +12,32 @@ public class FxNewsProvider {
     private IFXNewsListener newsListener;
     private IFXNewsPersister newsPersister;
 
-    public FxNewsProvider() {
-    }
+//    public FxNewsProvider() {
+//    }
 
+    @Inject
     public FxNewsProvider(IFXNewsListener newsListener, IFXNewsPersister newsPersister) {
         this.newsListener = newsListener;
         this.newsPersister = newsPersister;
     }
 
-    public IFXNewsListener getNewsListener() {
-        return newsListener;
-    }
+//    public IFXNewsListener getNewsListener() {
+//        return newsListener;
+//    }
+//
+//    public void setNewsListener(IFXNewsListener newsListener) {
+//        this.newsListener = newsListener;
+//    }
+//
+//    public IFXNewsPersister getNewsPersister() {
+//        return newsPersister;
+//    }
+//
+//    public void setNewsPersister(IFXNewsPersister newsPersister) {
+//        this.newsPersister = newsPersister;
+//    }
 
-    public void setNewsListener(IFXNewsListener newsListener) {
-        this.newsListener = newsListener;
-    }
-
-    public IFXNewsPersister getNewsPersister() {
-        return newsPersister;
-    }
-
-    public void setNewsPersister(IFXNewsPersister newsPersister) {
-        this.newsPersister = newsPersister;
-    }
-
-    public  void test(){
+    public void test() {
         System.out.println(this.newsListener.toString());
         System.out.println(this.newsListener.hashCode());
 

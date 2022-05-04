@@ -1,13 +1,15 @@
-package com.bycsmys.ioc;
+package com.bycsmys.ioc.spring;
 
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyValue;
+import com.bycsmys.ioc.service.DowJonesNewListener;
+import com.bycsmys.ioc.service.DowJonesNewsPersister;
+import com.bycsmys.ioc.service.FxNewsProvider;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.stereotype.Component;
 
 /**
  * 手动ioc注入

@@ -1,0 +1,37 @@
+### Bean的实例化与BeanWrapper
+容器在内部实现的时候，采用"策略模式"来决定采用何种方式初始化bean实例。通常，可以通过反射或者CGLIB动态字节码生成来初始化相应的bean实例或动态生成其子类。
+
+`org.springframework.beans.factory.support.InstantiationStrategy`定义是实例化策略的抽象接口，其直接子类`SimpleInstantiationStrategy`
+实现了简单的对象实例化功能，可以通过反射来实例化对象实例，但不支持注入方式的对象实例化。`CglibSubclassingInstantiationStrategy`继承了`SimpleInstantiationStrategy`
+的以反射方式实例化对象的功能，并且通过CGLIB的动态字节码生成功能，该策略实现类可以动态生成某个类的子类，进而满足了方法注入所需的对象实例化需求。默认情况下，容器内部采用的是
+`CglibSubclassingInstantiationStrategy`.
+
+对象实例化并不是直接返回构造的对象实例，而是以`BeanWrapper`对构造完成的对象实例进行包裹，返回相应的`BeanWrapper`实例。
+spring对根据对象实例构造一个BeanWrapperImpl实例，然后将CustomEditorConfigurer注册的PropertyEditor复制一份给BeanWrapperImpl实例。用于类型转换和设置对象的属性。
+
+### 各色Aware接口
+当对象实例化完成并且相关属性以及依赖设置完成之后，Spring容器会检查当前对象实例是否实现了一系列的以Aware命名结尾的接口定义。如果是，则将这些Aware接口定义中规定的依赖注入给当前对象实例。
+这些Aware接口为如下几个：
++ BeanNameAware: 如果Spring容器检测当前对象实例实现了该接口，会将该对象实例的bean定义对应的beanName设置到当前的对象实例。
++ BeanClassLoaderAware: 如果容器检测到当前对象实例实现了该接口，会将对应加载当前Bean的ClassLoader注入当前对象实例。默认会使用`org.springframework.util.ClassUtils`类的ClassLoader
++ BeanFactoryAware: 如果对象实现了`BeanFactoryAware`接口，BeanFactory容器会将自身设置到当前对象实例。这样当前对象实例就拥有了一个BeanFactory容器的引用，并且可以对这个容器内允许访问的对象按照需要进行访问。
+
+对于ApplicationContext类型容器，容器在这一步还会检查以下几个Aware接口并根据接口对应设置相关依赖。
++ ResourceLoaderAware: ApplicationContext实现了spring的ResourceLoaderAware接口之后，会将当前ApplicationContext自身设置到对象实例，这样当前对象实例就拥有了其所在ApplicationContext容器的一个引用。
++ ApplicationEventPublisherAware: 当容器检测到当前实例化对象声明了ApplicationEventPublishAware接口，会将自身注入当前对象
++ MessageSourceAware: 国际化支持，检测实现则注入
++ ApplicationContextAware: 检测实现则注入
+
+### BeanPostProcessor
+会处理容器内所有符合条件的实例化后的对象实例。
+通常比较常见的使用BeanPostProcessor的场景，是处理标记接口实现类，或者当前对象提供代理。
+
+### InitializingBean 和 init-method
+在对象实例化过程调用锅"BeanPostProcessor"的前置处理之后，会接着检测当前对象是否实现了InitializingBean接口，如果是则会带哦用其afterPropertiesSet()方法进一步调整对象实例的状态。
+比如，在有些情况下，某个业务对象实例化完成后，还不能处于可以使用状态。这个时候就可以让该业务对象实现该接口，并在方法afterPropertiesSet()中完成该对象的后续处理。
+
+### DisposableBean与destroy-method
+实例销毁的时候回调。
+scope为prototype 对象实例在容器实例化就返回给了请求方，容器就不在管理这种类型的声明周期，就补会调用销毁方法。
+
+

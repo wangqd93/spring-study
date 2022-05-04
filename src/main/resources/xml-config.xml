@@ -3,10 +3,10 @@
 
 <beans>
 
-    <bean id="djNewsListener" class="com.bycsmys.ioc.DowJonesNewListener"/>
-    <bean id="djNewsPersister" class="com.bycsmys.ioc.DowJonesNewsPersister"/>
+    <bean id="djNewsListener" class="com.bycsmys.ioc.service.DowJonesNewListener"/>
+    <bean id="djNewsPersister" class="com.bycsmys.ioc.service.DowJonesNewsPersister"/>
 
-    <bean id="djNewsProvider" class="com.bycsmys.ioc.FxNewsProvider">
+    <bean id="djNewsProvider" class="com.bycsmys.ioc.service.FxNewsProvider">
         <constructor-arg index="0">
             <ref bean="djNewsListener"/>
         </constructor-arg>

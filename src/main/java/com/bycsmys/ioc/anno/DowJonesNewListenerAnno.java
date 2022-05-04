@@ -1,6 +1,5 @@
 package com.bycsmys.ioc.anno;
 
-import com.bycsmys.ioc.IFXNewsListener;
 import org.springframework.stereotype.Component;
 
 /**
