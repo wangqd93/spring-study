@@ -119,6 +119,56 @@ AspectJ采用ajc编译器作为它的织入器；JBoss AOP使用自定义的Clas
 + 如果proxyFactory的proxyTargetClass的属性被设置为true，ProxyFactory会采用基于里的代理
 + 如果ProxyFactory的optimize属性被设置为true，proxyFactory会采用基于类的代理
 
+#### 看清proxyFactory
+##### AopProxy
+根据配置创建aopProxy ,`if (config.isOptimize() || config.isProxyTargetClass() || hasNoUserSuppliedProxyInterfaces(config))` 则创建cglib，否则jdkProxy
+```java
+    public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
+    
+    	@Override
+    	public AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException {
+    		if (config.isOptimize() || config.isProxyTargetClass() || hasNoUserSuppliedProxyInterfaces(config)) {
+    			Class<?> targetClass = config.getTargetClass();
+    			if (targetClass == null) {
+    				throw new AopConfigException("TargetSource cannot determine target class: " +
+    						"Either an interface or a target is required for proxy creation.");
+    			}
+    			if (targetClass.isInterface() || Proxy.isProxyClass(targetClass)) {
+    				return new JdkDynamicAopProxy(config);
+    			}
+    			return new ObjenesisCglibAopProxy(config);
+    		}
+    		else {
+    			return new JdkDynamicAopProxy(config);
+    		}
+    	}
+   
+    	private boolean hasNoUserSuppliedProxyInterfaces(AdvisedSupport config) {
+    		Class<?>[] ifcs = config.getProxiedInterfaces();
+    		return (ifcs.length == 0 || (ifcs.length == 1 && SpringProxy.class.isAssignableFrom(ifcs[0])));
+    	}
+    }
+```
+
+DefaultAopProxyFactory 创建代理的方法定义`public AopProxy createAopProxy(AdvisedSupport config)`
+AdvisedSupport所承载的信息可以划分为两类，
+一类是ProxyConfig为统领，记载生成代理对象的控制信息;
+一类以Advised为旗帜，承载生成代理对象所需要的必要信息，如相关目标类、Advice、Advisor等。
+
+proxyConfig其实就是一个普通的javaBean，它定义了5搞个boolean型的属性，分别控制在生成代理对象的时候，应该采取那些行为措施，
++ proxyTargetClass: 属性设置为true，则proxyFactory将会使用CGLIB对目标对象进行代理，默认值false。
++ optimize: 该书型的主要用于告知代理对象是否需要采取进一步的优化措施，如代理对象生成之后，即使为其添加或者移除相应的Advice，代理对象也可以忽略这种变动。
+另外我们也曾经提到过，当该属性为true时，proxyFactory会使用cglib进行代理对象的生成。默认情况下，该属性为false。
++ opaque: 该属性用于控制生成的代理对象是否可以强制转型为Advised，默认值为false，表示任何生成的代理对象都可以强制转型为Advised，我们可以通过Advised查询代理对象的一些状态。
++ exposeProxy: 设置exposeProxy，可以让Spring Aop框架在生成代理对象时，将当前代理对象绑定到ThreadLocal。
+如果目标对象需要访问当前代理对象，可以通过AopContext.currentProxy()取得。处于性能方面考虑，该属性默认值为false。
++ frozen: 如果将frozen设置为true，那么一旦针对代理对象生成的各项信息配置完成，则不容许更改。比如，如果proxyFactory的设置完毕，
+并且frozen为true，则不能对Advice进行任何变动，这样可以优化代理对象生成的性能。默认情况下，该值为false。
+
+
+
+
+
 
 
 
