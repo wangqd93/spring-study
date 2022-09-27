@@ -96,6 +96,34 @@ spring aop的this和target标志符语义，有别于AspectJ中这两个标志�
 在AspectJProxyFactory或者AnnotationAwareAspectJAutoProxyCreator通过反射获取了Aspect中的@Pointcut定义的AspectJ形式的Pointcut定义之后，
 在spring aop框架内部都会构造一个对应的AspectJExpressionPointcut对象实例。AspectJExpressionPointcut内部持有通过反射获得的Pointcut表达式。
 
+## @AspectJ形式的Advice
+@Aspect形式的Advice定义，实际上就是使用@Aspect标注的Aspect定义类中的普通方法。只不过，这些方法需要针对不同的Advice类型使用对应的注解进行标注。
+可以用于标注对应Advice定义方法的注解包括：
++ @Before。用于标注Before Advice定义所在的方法。
++ @AfterReturning。用于标注After Returning Advice定义所在的方法
++ @AfterThrowing。用于标注After Throwing Advice定义所在的方法，也就是在Spring AOP中称为ThrowAdvice的那种Advice类型。
++ @After。用于标注After(finally) Advice定义所在的方法。
++ @Around。用于标注Around Advice定义所在的方法，也就是常说的拦截器类型的Advice。第一个参数为ProceedingJoinPoint类型
++ @DeclareParents。用于标注Introduction类型的Advice，但该注解对应标注对象的域(Field),而不是方法(Method)
+
+某些情况下，我们可能需要在Advice定义中访问Joinpoint处的方法参数，现在有两种方式
++ 通过org.aspectj.lang.JoinPoint.在@AspectJ形式的Aspect中，定义Before Advice的方法可以将第一个参数声明为org.aspectj.lang.JoinPoint类型，
+通过Joinpoint我们可以借助它的getArgs()方法，访问相应的Joinpoint处方法的参数值。
++ 通过args标志符绑定。
+```java
+    @Before(value = "execution(boolean *.execute(String,..)) && args(taskName)")
+    public void setupResourcesBefore(String taskName) throw Throwable{}
+```
+
+
+### @AspectJ中的Aspect更多话题
+
+#### Advice的执行顺序
+在同一个Aspect内: 最先声明的Advice拥有最高的优先级。对于Before Advice来说，拥有最高优先级的最先运行，而对于AfterReturningAdvice，拥有最高优先级的则最后运行。
+
+在不同的Aspect内: 基于Ordered接口。较小值的Aspect，拥有较高的优先级。
+
+## 基于 Schema 的 AOP
 
 
 

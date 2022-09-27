@@ -1,6 +1,7 @@
 package com.bycsmys.ioc.anno;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,13 @@ public class FXNewsProviderAnno {
 
     @Autowired
     private IFXNewsPersisterAnno newsPersister;
+
+    @Value("${sdb.long.renew.hand.all.open:test}")
+    private String value;
+
+    public String getValue() {
+        return value;
+    }
 
     public FXNewsProviderAnno() {
     }

@@ -1,6 +1,6 @@
 ### spring ico 总体流程
 #### 1、容器启动阶段
-`beanDefinitionReader` 对家在的Configuration MetaData 进行解析和分析, 并将分析后的信息编组为相应的`BeanDefinition`,
+`beanDefinitionReader` 对加载的Configuration MetaData 进行解析和分析, 并将分析后的信息编组为相应的`BeanDefinition`,
 最后把这些保存了bean定义必要信息的`BeanDefinition`，注册到相应的`BeanDefinitionRegistry`,这样容器启动工作就完成了。
 
 #### 2、Bean实例化阶段

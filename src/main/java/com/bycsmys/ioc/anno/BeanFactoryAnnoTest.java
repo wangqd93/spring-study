@@ -12,7 +12,8 @@ public class BeanFactoryAnnoTest {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("anno-config.xml");
         FXNewsProviderAnno newsProviderAnno = (FXNewsProviderAnno) applicationContext.getBean("FXNewsProviderAnno");
-
         newsProviderAnno.test();
+
+        System.out.println("newsProviderAnno.getValue() = " + newsProviderAnno.getValue());
     }
 }
