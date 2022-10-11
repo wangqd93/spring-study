@@ -1,22 +1,31 @@
 package com.bycsmys;
 
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
 import org.springframework.util.ObjectUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import javax.lang.model.element.Modifier;
+import java.io.IOException;
+import java.util.*;
 
 public class Test {
+    public static void main(String[] args) throws IOException {
+        MethodSpec main = MethodSpec.methodBuilder("main")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .returns(void.class)
+                .addParameter(String[].class, "args")
+                .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
+                .build();
 
-    public static void main(String[] args) {
-        Map hashMap = new HashMap();
-        hashMap.put(null, null);
+        TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addMethod(main)
+                .build();
 
+        JavaFile javaFile = JavaFile.builder("com.example.helloworld", helloWorld)
+                .build();
 
-        Map treeMap = new TreeMap();
-        treeMap.put("", null);
-
-
+        javaFile.writeTo(System.out);
     }
 }
