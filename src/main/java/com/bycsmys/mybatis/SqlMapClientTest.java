@@ -3,11 +3,9 @@ package com.bycsmys.mybatis;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 
 public class SqlMapClientTest {
 
